@@ -13,8 +13,10 @@ export const InkCursor = () => {
 
     // Trail state
     const [trail, setTrail] = useState<{ x: number, y: number, id: number }[]>([]);
+    const [splatters, setSplatters] = useState<{ x: number, y: number, id: number, size: number, initialOpacity: number }[]>([]);
     const requestRef = useRef<number | null>(null);
     const mousePos = useRef({ x: -100, y: -100 });
+    const lastMouseInfo = useRef({ x: -100, y: -100, t: 0 });
 
     // Idle detection
     const [isIdle, setIsIdle] = useState(false);
@@ -22,6 +24,34 @@ export const InkCursor = () => {
 
     useEffect(() => {
         const moveCursor = (e: MouseEvent) => {
+            const now = Date.now();
+            const dt = now - lastMouseInfo.current.t;
+            
+            // Velocity Splatter physics
+            if (lastMouseInfo.current.t !== 0 && dt > 0) {
+                const dx = e.clientX - lastMouseInfo.current.x;
+                const dy = e.clientY - lastMouseInfo.current.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                const velocity = distance / dt;
+
+                // Threshold for blood/ink to flick off the nib
+                if (velocity > 1.5) {
+                    const newSplatters = Array.from({ length: Math.ceil(velocity * 1.5) }).map(() => ({
+                        x: e.clientX + (Math.random() - 0.5) * 60 * (velocity/2),
+                        y: e.clientY + (Math.random() - 0.5) * 60 * (velocity/2),
+                        id: Date.now() + Math.random(),
+                        size: Math.random() * 3 + 0.5,
+                        initialOpacity: Math.random() * 0.6 + 0.2
+                    }));
+                    setSplatters(prev => {
+                        const next = [...prev, ...newSplatters];
+                        return next.length > 50 ? next.slice(next.length - 50) : next;
+                    });
+                }
+            }
+
+            lastMouseInfo.current = { x: e.clientX, y: e.clientY, t: now };
+
             mousePos.current = { x: e.clientX, y: e.clientY };
             cursorX.set(e.clientX - 6); // Offset for center of main dot
             cursorY.set(e.clientY - 6);
@@ -29,7 +59,7 @@ export const InkCursor = () => {
             // Reset idle timer
             setIsIdle(false);
             if (timerRef.current) clearTimeout(timerRef.current);
-            timerRef.current = setTimeout(() => {
+            timerRef.current = window.setTimeout(() => {
                 setIsIdle(true);
             }, 500);
         };
@@ -96,6 +126,20 @@ export const InkCursor = () => {
                         />
                     );
                 })}
+                {splatters.map((point) => (
+                    <motion.circle
+                        key={point.id}
+                        cx={point.x}
+                        cy={point.y}
+                        r={point.size}
+                        fill="#8a0303"
+                        initial={{ opacity: point.initialOpacity, scale: 0.5 }}
+                        animate={{ opacity: 0, scale: point.size * 1.5 }}
+                        transition={{ duration: 2.5, ease: "easeOut" }}
+                        filter="url(#liquid-filter)"
+                        style={{ mixBlendMode: 'multiply' }}
+                    />
+                ))}
             </svg>
 
             {/* Main Cursor (The Nib) */}
@@ -132,7 +176,7 @@ export const InkCursor = () => {
                             height: 12,
                             background: '#8a0303',
                             zIndex: -1,
-                            filter: 'blur(2px)', // Softens edges for liquid look
+                            filter: 'url(#blood-splatter-filter) blur(2px)', // Softens edges and adds organic blood bleed
                             mixBlendMode: 'multiply' // Blends with paper
                         }}
                     />

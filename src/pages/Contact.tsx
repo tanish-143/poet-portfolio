@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import anime from 'animejs';
 import { StaggeredText } from '../components/ui/StaggeredText';
 import { Send, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
-import { db } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
 
 export const Contact = () => {
     const formRef = useRef<HTMLFormElement>(null);
@@ -61,26 +60,45 @@ export const Contact = () => {
             return;
         }
 
+        // Ensure EmailJS env vars are present
+        if (!import.meta.env.VITE_EMAILJS_SERVICE_ID || !import.meta.env.VITE_EMAILJS_TEMPLATE_ID || !import.meta.env.VITE_EMAILJS_PUBLIC_KEY) {
+            setStatus('error');
+            setErrorMessage('Email service not configured. Please set VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID and VITE_EMAILJS_PUBLIC_KEY.');
+            return;
+        }
+
         setStatus('loading');
         try {
-            await addDoc(collection(db, 'contacts'), {
-                ...formData,
-                timestamp: serverTimestamp()
-            });
+            // Dynamically import EmailJS to avoid HMR import-analysis failures during dev
+            const emailjsModule = await import('@emailjs/browser');
+            const emailjsLib = emailjsModule?.default ?? emailjsModule;
+
+            if (!emailjsLib || !emailjsLib.send) {
+                throw new Error('EmailJS library failed to load.');
+            }
+
+            await emailjsLib.send(
+                import.meta.env.VITE_EMAILJS_SERVICE_ID,
+                import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+                {
+                    from_name: formData.name,
+                    from_email: formData.email,
+                    message: formData.message,
+                    to_email: import.meta.env.VITE_CONTACT_RECIPIENT || ''
+                },
+                import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+            );
+
             setStatus('success');
             setFormData({ name: '', email: '', message: '' });
-            // Reset status after a few seconds
             setTimeout(() => setStatus('idle'), 5000);
         } catch (error: any) {
-            console.error('Firestore Error:', error);
+            console.error('EmailJS Error:', error);
             setStatus('error');
-
-            if (error.code === 'permission-denied') {
-                setErrorMessage('Permission denied. Please check your Firestore security rules.');
-            } else if (!import.meta.env.VITE_FIREBASE_API_KEY) {
-                setErrorMessage('Firebase configuration is missing. Please check your environment variables.');
-            } else {
-                setErrorMessage('Something went wrong. Please check your internet connection or try again later.');
+            setErrorMessage('Something went wrong sending the email. Please try again later. If you see a module resolution error, restart the dev server or run npm install.');
+            // Log helpful hint when recipient env var is missing
+            if (!import.meta.env.VITE_CONTACT_RECIPIENT) {
+                console.warn('VITE_CONTACT_RECIPIENT is not set; set it to your email (e.g., widgetwalker999@gmail.com)');
             }
         }
     };

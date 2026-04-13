@@ -25,7 +25,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, className }) => {
     const navLinks = [
         { to: '/portfolio', label: 'Work' },
         { to: '/about', label: 'About' },
-        { to: '/contact', label: 'Contact' },
     ];
 
     return (

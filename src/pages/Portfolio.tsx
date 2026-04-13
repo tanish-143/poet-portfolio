@@ -1,8 +1,9 @@
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { MagicText } from '../components/ui/MagicText';
+import { TiltCard } from '../components/ui/TiltCard';
 import { Link } from 'react-router-dom';
 import { poems } from '../data/poems';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 // Map categories to subtle accent colors from the design system
 const categoryAccents: Record<string, { border: string; bg: string; text: string }> = {
@@ -32,12 +33,23 @@ const getAccent = (category: string) =>
     categoryAccents[category] ?? { border: 'border-rose/30', bg: 'hover:bg-rose/5', text: 'text-rose' };
 
 export const Portfolio = () => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const { scrollYProgress } = useScroll({
+        target: containerRef,
+        offset: ["start start", "end end"]
+    });
+
+    // Create staggered parallax effects based on scroll
+    // Column 1 moves down slightly, Column 2 moves up slightly as you scroll
+    const yEven = useTransform(scrollYProgress, [0, 1], [0, 80]);
+    const yOdd = useTransform(scrollYProgress, [0, 1], [0, -80]);
+
     useEffect(() => {
         document.title = "Collected Works | Theodore";
     }, []);
 
     return (
-        <div className="py-12 max-w-4xl mx-auto">
+        <div ref={containerRef} className="py-12 max-w-4xl mx-auto min-h-screen">
             <header className="mb-16 text-center">
                 <MagicText text="Collected Works" as="h1" className="font-heading text-4xl sm:text-5xl md:text-6xl text-ink mb-4" />
                 <motion.div
@@ -51,16 +63,18 @@ export const Portfolio = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {poems.map((poem, index) => {
                     const accent = getAccent(poem.category);
+                    const isOdd = index % 2 !== 0;
                     return (
                         <motion.div
                             key={poem.id}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1, duration: 0.6 }}
+                            style={{ y: isOdd ? yOdd : yEven }}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            transition={{ delay: (index % 2) * 0.1, duration: 0.8 }}
                             viewport={{ once: true, margin: "-50px" }}
                         >
-                            <Link to={`/portfolio/${poem.slug}`}>
-                                <div className={`group bg-white/60 backdrop-blur-sm p-8 border ${accent.border} ${accent.bg} transition-all duration-500 cursor-pointer relative overflow-hidden h-full flex flex-col hover:shadow-lg hover:-translate-y-1 hover:rotate-1`}>
+                            <Link to={`/portfolio/${poem.slug}`} className="h-full block">
+                                <TiltCard className={`group bg-white/60 backdrop-blur-sm p-8 border ${accent.border} ${accent.bg} cursor-pointer relative overflow-hidden h-full flex flex-col`}>
                                     {/* Paper Texture Overlay */}
                                     <div className="absolute inset-0 opacity-20 pointer-events-none mix-blend-multiply bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]"></div>
 
@@ -73,7 +87,7 @@ export const Portfolio = () => {
                                     <div className="mt-auto flex justify-end relative z-10">
                                         <span className={`font-bold text-xs uppercase tracking-widest text-ink/40 group-hover:${accent.text} transition-colors`}>Read Poem &rarr;</span>
                                     </div>
-                                </div>
+                                </TiltCard>
                             </Link>
                         </motion.div>
                     );

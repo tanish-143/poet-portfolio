@@ -22,11 +22,11 @@ export const WatercolorSpot: React.FC<WatercolorSpotProps> = ({
 
     return (
         <motion.div
-            initial={{ opacity: 0, scale: 0.8, filter: "blur(20px)", rotate: 0 }}
+            initial={{ opacity: 0, scale: 0.8, filter: "url(#liquid-filter) blur(20px)", rotate: 0 }}
             animate={{
                 opacity: [0.2, 0.4, 0.25], // Continuous breathing
                 scale: [0.9, 1.1, 0.95],
-                filter: ["blur(40px)", "blur(60px)", "blur(50px)"],
+                filter: ["url(#liquid-filter) blur(40px)", "url(#liquid-filter) blur(60px)", "url(#liquid-filter) blur(50px)"],
                 rotate: [0, randomRotation, 0]
             }}
             transition={{
@@ -37,12 +37,15 @@ export const WatercolorSpot: React.FC<WatercolorSpotProps> = ({
                 ease: "easeInOut"
             }}
             className={cn(
-                "absolute rounded-full -z-10 mix-blend-multiply pointer-events-none",
+                "absolute rounded-[40%] -z-10 mix-blend-multiply pointer-events-none", // Changed from rounded-full for more organic shape
                 color,
                 width,
                 height,
                 className
             )}
+            style={{
+                filter: 'url(#liquid-filter) blur(20px)'
+            }}
         />
     );
 };
