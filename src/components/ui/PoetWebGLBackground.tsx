@@ -7,10 +7,9 @@ const ParticleField = () => {
     const count = 4000;
 
     // Generate random 3D points inside a massive sphere
-    const [positions, colors, randoms] = useMemo(() => {
+    const [positions, colors] = useMemo(() => {
         const positions = new Float32Array(count * 3);
         const colors = new Float32Array(count * 3);
-        const randoms = new Float32Array(count); // For flicker
 
         const colorInk = new THREE.Color('#1a1513'); // Very dark sepia/ink
         const colorBlood = new THREE.Color('#8a1c1c'); // Dark red blood
@@ -33,10 +32,8 @@ const ParticleField = () => {
             colors[i * 3] = mixedColor.r;
             colors[i * 3 + 1] = mixedColor.g;
             colors[i * 3 + 2] = mixedColor.b;
-
-            randoms[i] = Math.random();
         }
-        return [positions, colors, randoms];
+        return [positions, colors];
     }, [count]);
 
     const vec = new THREE.Vector3();
@@ -86,12 +83,14 @@ const ParticleField = () => {
                     count={positions.length / 3}
                     array={positions}
                     itemSize={3}
+                    args={[positions, 3]}
                 />
                 <bufferAttribute
                     attach="attributes-color"
                     count={colors.length / 3}
                     array={colors}
                     itemSize={3}
+                    args={[colors, 3]}
                 />
             </bufferGeometry>
             <pointsMaterial
