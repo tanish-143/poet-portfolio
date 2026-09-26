@@ -13,7 +13,7 @@ export const PoemDetail = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
         if (poem) {
-            document.title = `${poem.title} | Theodore`;
+            document.title = `${poem.title} | S. Barsha Priyadarshini`;
         }
     }, [poem]);
 
@@ -87,7 +87,7 @@ export const PoemDetail = () => {
                 className="mt-20 pt-12 border-t border-ink/10 text-center"
             >
                 <div className="font-handwriting text-2xl text-ink/40 rotate-1">
-                    ~ Theodore
+                    ~ S. Barsha Priyadarshini
                 </div>
             </motion.div>
         </motion.div>

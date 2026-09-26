@@ -45,7 +45,7 @@ export const Portfolio = () => {
     const yOdd = useTransform(scrollYProgress, [0, 1], [0, -80]);
 
     useEffect(() => {
-        document.title = "Collected Works | Theodore";
+        document.title = "Collected Works | S. Barsha Priyadarshini";
     }, []);
 
     return (

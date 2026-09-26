@@ -16,7 +16,7 @@ export const Contact = () => {
     const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        document.title = "Leave a Note | Theodore";
+        document.title = "Leave a Note | S. Barsha Priyadarshini";
     }, []);
 
 

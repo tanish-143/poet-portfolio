@@ -16,7 +16,7 @@ export const Home = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
-        document.title = "The Painted Journal | Theodore";
+        document.title = "The Painted Journal | S. Barsha Priyadarshini";
     }, []);
 
     useEffect(() => {
