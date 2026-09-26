@@ -1,187 +1,268 @@
-import { useEffect, useState, useRef } from 'react';
-import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
+
+const FEATHER_SIZE = 120;
+const FEATHER_TIP_OFFSET_X = 8;
+const FEATHER_TIP_OFFSET_Y = 86;
+const FEATHER_URL = '/assets/peacock-feather.svg';
 
 export const InkCursor = () => {
-    // Current mouse position tracking
+    const [isVisible, setIsVisible] = useState(false);
+    const [isIdle, setIsIdle] = useState(false);
+    const [isTouchDevice, setIsTouchDevice] = useState(false);
+    const [isHovering, setIsHovering] = useState(false);
+    const [reducedMotion, setReducedMotion] = useState(false);
+    const [imageReady, setImageReady] = useState(false);
+    const [imageError, setImageError] = useState(false);
+
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
+    const rotation = useMotionValue(0);
+    const swayX = useMotionValue(0);
+    const swayY = useMotionValue(0);
+    const scale = useMotionValue(1);
+    const glowOpacity = useMotionValue(0);
 
-    // Smooth spring for the main cursor dot
-    const springConfig = { damping: 20, stiffness: 100 };
-    const cursorXSpring = useSpring(cursorX, springConfig);
-    const cursorYSpring = useSpring(cursorY, springConfig);
+    const idleTimeoutRef = useRef<number | null>(null);
+    const lastMouseRef = useRef({ x: 0, y: 0 });
+    const swayFrameRef = useRef<number | null>(null);
 
-    // Trail state
-    const [trail, setTrail] = useState<{ x: number, y: number, id: number }[]>([]);
-    const [splatters, setSplatters] = useState<{ x: number, y: number, id: number, size: number, initialOpacity: number }[]>([]);
-    const requestRef = useRef<number | null>(null);
-    const mousePos = useRef({ x: -100, y: -100 });
-    const lastMouseInfo = useRef({ x: -100, y: -100, t: 0 });
-
-    // Idle detection
-    const [isIdle, setIsIdle] = useState(false);
-    const timerRef = useRef<number | null>(null);
+    const cursorXSpring = useSpring(cursorX, { damping: 22, stiffness: 180, mass: 0.8 });
+    const cursorYSpring = useSpring(cursorY, { damping: 22, stiffness: 180, mass: 0.8 });
+    const rotationSpring = useSpring(rotation, { damping: 26, stiffness: 120 });
+    const swayXSpring = useSpring(swayX, { damping: 18, stiffness: 80 });
+    const swayYSpring = useSpring(swayY, { damping: 18, stiffness: 80 });
+    const scaleSpring = useSpring(scale, { damping: 18, stiffness: 240 });
+    const glowOpacitySpring = useSpring(glowOpacity, { damping: 18, stiffness: 170 });
 
     useEffect(() => {
-        const moveCursor = (e: MouseEvent) => {
-            const now = Date.now();
-            const dt = now - lastMouseInfo.current.t;
-            
-            // Velocity Splatter physics
-            if (lastMouseInfo.current.t !== 0 && dt > 0) {
-                const dx = e.clientX - lastMouseInfo.current.x;
-                const dy = e.clientY - lastMouseInfo.current.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                const velocity = distance / dt;
+        const updateTouchState = () => {
+            setIsTouchDevice(window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window || navigator.maxTouchPoints > 0);
+        };
 
-                // Threshold for blood/ink to flick off the nib
-                if (velocity > 1.5) {
-                    const newSplatters = Array.from({ length: Math.ceil(velocity * 1.5) }).map(() => ({
-                        x: e.clientX + (Math.random() - 0.5) * 60 * (velocity/2),
-                        y: e.clientY + (Math.random() - 0.5) * 60 * (velocity/2),
-                        id: Date.now() + Math.random(),
-                        size: Math.random() * 3 + 0.5,
-                        initialOpacity: Math.random() * 0.6 + 0.2
-                    }));
-                    setSplatters(prev => {
-                        const next = [...prev, ...newSplatters];
-                        return next.length > 50 ? next.slice(next.length - 50) : next;
-                    });
-                }
+        updateTouchState();
+
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        setReducedMotion(mediaQuery.matches);
+
+        const onMediaChange = (event: MediaQueryListEvent) => setReducedMotion(event.matches);
+        mediaQuery.addEventListener('change', onMediaChange);
+
+        return () => mediaQuery.removeEventListener('change', onMediaChange);
+    }, []);
+
+    useEffect(() => {
+        const feather = new Image();
+        feather.onload = () => setImageReady(true);
+        feather.onerror = () => {
+            setImageError(true);
+            document.body.style.cursor = 'auto';
+        };
+        feather.src = FEATHER_URL;
+    }, []);
+
+    useEffect(() => {
+        if (isTouchDevice || imageError) {
+            document.body.style.cursor = 'auto';
+            return;
+        }
+
+        const handleMouseMove = (event: MouseEvent) => {
+            const dx = event.clientX - lastMouseRef.current.x;
+            const dy = event.clientY - lastMouseRef.current.y;
+            const velocity = Math.hypot(dx, dy);
+
+            lastMouseRef.current = { x: event.clientX, y: event.clientY };
+            cursorX.set(event.clientX - FEATHER_TIP_OFFSET_X);
+            cursorY.set(event.clientY - FEATHER_TIP_OFFSET_Y);
+            setIsVisible(true);
+            setIsIdle(false);
+
+            if (idleTimeoutRef.current) {
+                window.clearTimeout(idleTimeoutRef.current);
             }
 
-            lastMouseInfo.current = { x: e.clientX, y: e.clientY, t: now };
+            idleTimeoutRef.current = window.setTimeout(() => setIsIdle(true), 1800);
 
-            mousePos.current = { x: e.clientX, y: e.clientY };
-            cursorX.set(e.clientX - 6); // Offset for center of main dot
-            cursorY.set(e.clientY - 6);
+            if (!reducedMotion) {
+                const targetRotation = Math.min(Math.max(dx * 0.18, -18), 18);
+                rotation.set(targetRotation);
 
-            // Reset idle timer
-            setIsIdle(false);
-            if (timerRef.current) clearTimeout(timerRef.current);
-            timerRef.current = window.setTimeout(() => {
-                setIsIdle(true);
-            }, 500);
+                if (velocity > 0.8) {
+                    const sway = Math.min(Math.max(dx * 0.12, -10), 10);
+                    swayX.set(sway);
+                    swayY.set(dy * 0.08);
+                }
+            }
         };
 
-        window.addEventListener('mousemove', moveCursor);
+        const handleMouseEnter = () => setIsVisible(true);
+        const handleMouseLeave = () => setIsVisible(false);
+
+        const handlePointerOver = (event: Event) => {
+            const target = event.target as HTMLElement | null;
+            const interactive = !!target?.closest('a, button, input, textarea, select, [role="button"], [data-hoverable]');
+            setIsHovering(interactive);
+            if (interactive) {
+                scale.set(1.08);
+                glowOpacity.set(0.7);
+            }
+        };
+
+        const handlePointerOut = (event: Event) => {
+            const target = event.target as HTMLElement | null;
+            const interactive = !!target?.closest('a, button, input, textarea, select, [role="button"], [data-hoverable]');
+            if (interactive) {
+                setIsHovering(false);
+                scale.set(1);
+                glowOpacity.set(0);
+            }
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('mouseenter', handleMouseEnter);
+        window.addEventListener('mouseleave', handleMouseLeave);
+        document.addEventListener('mouseover', handlePointerOver);
+        document.addEventListener('mouseout', handlePointerOut);
+
         return () => {
-            window.removeEventListener('mousemove', moveCursor);
-            if (timerRef.current) clearTimeout(timerRef.current);
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('mouseenter', handleMouseEnter);
+            window.removeEventListener('mouseleave', handleMouseLeave);
+            document.removeEventListener('mouseover', handlePointerOver);
+            document.removeEventListener('mouseout', handlePointerOut);
+            if (idleTimeoutRef.current) window.clearTimeout(idleTimeoutRef.current);
         };
-    }, []);
+    }, [cursorX, cursorY, glowOpacity, imageError, isTouchDevice, reducedMotion, rotation, scale, swayX, swayY]);
 
-    // Animation Loop for Trail
     useEffect(() => {
-        const animateTrail = () => {
-            setTrail(prevTrail => {
-                const newPoint = { x: mousePos.current.x, y: mousePos.current.y, id: Date.now() };
+        if (isTouchDevice || reducedMotion || !isVisible || imageError) {
+            if (swayFrameRef.current) {
+                cancelAnimationFrame(swayFrameRef.current);
+                swayFrameRef.current = null;
+            }
+            swayX.set(0);
+            swayY.set(0);
+            return;
+        }
 
-                // Keep last 20 points
-                const newTrail = [...prevTrail, newPoint].slice(-20);
+        if (!isIdle) {
+            swayX.set(0);
+            swayY.set(0);
+            return;
+        }
 
-                // If the mouse hasn't moved much, don't add points to avoid bunching? 
-                // Actually, for a "drying" ink effect, we might want points to disappear.
-
-                // Filter out old points implicitly by slicing, but we also want time-based decay?
-                // For React performance, just slicing is better.
-                return newTrail;
-            });
-
-            requestRef.current = requestAnimationFrame(animateTrail);
+        let start = 0;
+        const animateSway = (timestamp: number) => {
+            if (!start) start = timestamp;
+            const elapsed = timestamp - start;
+            const wave = Math.sin(elapsed / 500) * 6;
+            const drift = Math.cos(elapsed / 700) * 3;
+            swayX.set(wave);
+            swayY.set(drift);
+            swayFrameRef.current = requestAnimationFrame(animateSway);
         };
 
-        requestRef.current = requestAnimationFrame(animateTrail);
+        swayFrameRef.current = requestAnimationFrame(animateSway);
+
         return () => {
-            if (requestRef.current) cancelAnimationFrame(requestRef.current);
+            if (swayFrameRef.current) {
+                cancelAnimationFrame(swayFrameRef.current);
+                swayFrameRef.current = null;
+            }
         };
-    }, []);
+    }, [isIdle, isTouchDevice, isVisible, reducedMotion, imageError, swayX, swayY]);
 
-    // Color: Dark Ink
-    // const inkColor = "bg-[#2C3E50]"; // Using 'ink' color code
-    // Color: Blood Red
-    const inkColor = "bg-[#8a0303]";
+    useEffect(() => {
+        if (isHovering) {
+            scale.set(1.08);
+            glowOpacity.set(0.7);
+        } else if (!isIdle) {
+            scale.set(1);
+            glowOpacity.set(0);
+        }
+    }, [glowOpacity, isHovering, isIdle, scale]);
 
-    // Helper for random rounded blobbiness
-    const blobShape = ["50%", "60% 40% 30% 70%", "50% 50% 70% 30%", "40% 60%"];
+    useEffect(() => {
+        if (imageError || isTouchDevice) {
+            document.body.style.cursor = 'auto';
+            return;
+        }
+
+        document.body.style.cursor = 'none';
+        return () => {
+            document.body.style.cursor = 'auto';
+        };
+    }, [imageError, isTouchDevice]);
+
+    if (isTouchDevice || !isVisible || imageError) {
+        return null;
+    }
+
+    if (!imageReady) {
+        return (
+            <motion.div
+                className="pointer-events-none fixed left-0 top-0 z-[9999]"
+                style={{
+                    x: cursorXSpring,
+                    y: cursorYSpring,
+                }}
+            >
+                <div className="h-4 w-4 rounded-full bg-[#b89a4c]/80 shadow-[0_0_18px_rgba(184,154,76,0.8)]" />
+            </motion.div>
+        );
+    }
 
     return (
-        <div className="pointer-events-none fixed inset-0 z-[9999] hidden md:block">
-            {/* The Trail */}
-            <svg className="absolute inset-0 w-full h-full overflow-visible">
-                {trail.map((point, i) => {
-                    // Calculate fading opacity based on index
-                    const opacity = (i / trail.length) * 0.5;
-                    const size = 2 + (i / trail.length) * 4; // Thinner at tail? Quills are usually consistent or taper at end.
-                    // Let's make it taper at the END (oldest point).
-
-                    return (
-                        <circle
-                            key={point.id + i}
-                            cx={point.x}
-                            cy={point.y}
-                            r={size / 2}
-                            fill="#8a0303"
-                            opacity={opacity}
-                        />
-                    );
-                })}
-                {splatters.map((point) => (
-                    <motion.circle
-                        key={point.id}
-                        cx={point.x}
-                        cy={point.y}
-                        r={point.size}
-                        fill="#8a0303"
-                        initial={{ opacity: point.initialOpacity, scale: 0.5 }}
-                        animate={{ opacity: 0, scale: point.size * 1.5 }}
-                        transition={{ duration: 2.5, ease: "easeOut" }}
-                        filter="url(#liquid-filter)"
-                        style={{ mixBlendMode: 'multiply' }}
-                    />
-                ))}
-            </svg>
-
-            {/* Main Cursor (The Nib) */}
+        <motion.div
+            className="pointer-events-none fixed left-0 top-0 z-[9999]"
+            style={{
+                x: cursorXSpring,
+                y: cursorYSpring,
+                rotate: rotationSpring,
+            }}
+        >
             <motion.div
-                className={`fixed top-0 left-0 w-3 h-3 ${inkColor} rounded-full`}
+                animate={{ scale: isIdle ? 0.96 : 1 }}
+                transition={{ type: 'spring', damping: 22, stiffness: 180 }}
                 style={{
-                    translateX: cursorXSpring,
-                    translateY: cursorYSpring,
+                    width: FEATHER_SIZE,
+                    height: FEATHER_SIZE,
+                    x: swayXSpring,
+                    y: swayYSpring,
+                    rotateX: isHovering ? 10 : 0,
+                    rotateY: isHovering ? -10 : 0,
+                    scale: scaleSpring,
+                    transformPerspective: 400,
                 }}
-            />
+            >
+                <motion.div
+                    aria-hidden="true"
+                    className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full blur-2xl"
+                    style={{
+                        width: FEATHER_SIZE * 1.8,
+                        height: FEATHER_SIZE * 1.8,
+                        background: 'radial-gradient(circle, rgba(218,165,32,0.38) 0%, rgba(218,165,32,0.12) 28%, transparent 70%)',
+                        opacity: glowOpacitySpring,
+                    }}
+                />
 
-            {/* Expanding Stain (Only when idle) */}
-            <AnimatePresence>
-                {isIdle && (
-                    <motion.div
-                        initial={{ scale: 0.5, opacity: 0.9 }}
-                        animate={{
-                            scale: 4,
-                            opacity: 0.6,
-                            borderRadius: blobShape // Organic shape
-                        }}
-                        exit={{ scale: 0.5, opacity: 0, transition: { duration: 0.3 } }}
-                        transition={{
-                            duration: 3, // Slow bleed like original
-                            borderRadius: { duration: 3, repeat: Infinity, repeatType: "mirror" }
-                        }}
-                        style={{
-                            translateX: cursorXSpring,
-                            translateY: cursorYSpring,
-                            position: 'fixed',
-                            top: 0,
-                            left: 0,
-                            width: 12, // Match cursor size basis
-                            height: 12,
-                            background: '#8a0303',
-                            zIndex: -1,
-                            filter: 'url(#blood-splatter-filter) blur(2px)', // Softens edges and adds organic blood bleed
-                            mixBlendMode: 'multiply' // Blends with paper
-                        }}
-                    />
-                )}
-            </AnimatePresence>
-        </div>
+                <img
+                    src={FEATHER_URL}
+                    alt=""
+                    draggable={false}
+                    className="block origin-bottom select-none"
+                    style={{
+                        width: FEATHER_SIZE,
+                        height: FEATHER_SIZE,
+                        objectFit: 'contain',
+                        pointerEvents: 'none',
+                        filter: isHovering ? 'drop-shadow(0 0 18px rgba(218,165,32,0.45))' : 'drop-shadow(0 0 10px rgba(11, 38, 18, 0.18))',
+                    }}
+                />
+            </motion.div>
+        </motion.div>
     );
 };
+
+export default InkCursor;
