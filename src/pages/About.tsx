@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 export const About = () => {
     useEffect(() => {
-        document.title = "About | Theodore";
+        document.title = "About | S. Barsha Priyadarshini";
     }, []);
 
     return (
@@ -34,7 +34,7 @@ export const About = () => {
                         className="absolute -bottom-8 left-0 right-0 text-center"
                     >
                         <span className="font-handwriting text-xl text-ink/50 rotate-1 inline-block">
-                            — Theodore, 2024
+                            — S. Barsha Priyadarshini
                         </span>
                     </motion.div>
 
@@ -45,7 +45,7 @@ export const About = () => {
             </motion.div>
 
             <div className="w-full md:w-1/2 space-y-6 mt-8 md:mt-0">
-                <StaggeredText text="About the Poet" className="font-heading text-4xl md:text-5xl text-ink" />
+                <StaggeredText text="About Us" className="font-heading text-4xl md:text-5xl text-ink" />
 
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -54,13 +54,7 @@ export const About = () => {
                     className="font-body text-lg leading-relaxed text-ink/80 space-y-6"
                 >
                     <p>
-                        I write because silence has never been enough. Born in chaos, raised in contradiction — poetry became the one language that didn't lie to me. Every poem here is a scar turned into a sentence, a feeling that refused to stay buried.
-                    </p>
-                    <p>
-                        I don't write about sunsets. I write about the moment after — when the light dies and you're left alone with your thoughts. Whether it's heartbreak, friendship, fear, or the strange comfort of feeling lost, my goal is always the same: to make you feel seen.
-                    </p>
-                    <p className="font-handwriting text-2xl text-rose pt-4">
-                        "We write to taste life twice, in the moment and in retrospect." — Anaïs Nin
+                        I, S. Barsha Priyadarshini is an undergraduate English Honours student at KIIT University with a keen interest in literature, women’s writing, feminism, and regional literature. She is a researcher, poet, and creative writer whose works explore themes of gender, society, identity, and marginalisation. She has presented research papers at academic conferences and has contributed poems to literary anthologies. She aspires to pursue research in the humanities.
                     </p>
                 </motion.div>
             </div>

@@ -11,138 +11,373 @@ export interface Poem {
 export const poems: Poem[] = [
     {
         id: '1',
-        title: "The Truth Within",
-        slug: "the-truth-within",
+        title: "Screaming of the Heart: perennial pain",
+        slug: "screaming-of-the-heart-perennial-pain",
         category: "Masks",
-        date: "2024",
-        excerpt: "I seem happy right? You see no new cuts on my wrists...",
+        date: "2025",
+        excerpt: "Heart beeps, Anesthetic pain. No one gazes at it...",
         content: `
-            <p>I seem happy right?</p>
-            <p>You see no new cuts on my wrists</p>
-            <p>A smile on my lips</p>
-            <p>You hear me laugh or crack a joke</p>
+            <p>Heart beeps,</p>
+            <p>Anesthetic pain.</p>
+            <p>No one gazes at it.</p>
+            <p>A beautiful smile on the face</p>
+            <p>Hides the smooth pain.</p>
             <br/>
-            <p>But did you look into my eyes and see the sorrow that lyes there?</p>
-            <p>Did you see the demons inside waiting for me to be alone so they can come out?</p>
-            <p>Did you feel the cold lifeless touch of my skin?</p>
+            <p>Chaos in the heart,</p>
+            <p>No one sees it.</p>
+            <p>The mind asks the heart,</p>
+            <p>“Are you fine, bro?</p>
+            <p>Is everything fine?”</p>
             <br/>
-            <p>My friend If you only opened your eyes to the darkness inside me, you'd see the truth that lies within</p>
+            <p>The heart signals green.</p>
+            <p>The face is still glowy.</p>
+            <p>A gloomy heart can't be seen</p>
+            <p>Through lenses, but needs</p>
+            <p>An introspective gaze to feel it.</p>
+            <br/>
+            <p>Heart beeps,</p>
+            <p>A smile on the face.</p>
+            <p>Tears emptied the tank.</p>
+            <p>The pain vanishes.</p>
+            <p>The heart feels nothing</p>
+            <p>Except the beeping.</p>
+            <p>The smile is still the same.</p>
+            <p>No one understands the pain.</p>
+            <br/>
+            <p>Self-annihilation to commence the self,</p>
+            <p>But....</p>
+            <p>The heart beeps,</p>
+            <p>And the new self is made.</p>
+            <br/>
+            <p>Still, the pain remains the same.</p>
+            <p>Nothing changes</p>
+            <p>Except the persona.</p>
+            <p>Pain numbs and replaces the self.</p>
+            <p>Self-self fragmented forms.</p>
+            <br/>
+            <p>Decode it if you want,</p>
+            <p>Forming to the Big Other.</p>
+            <p>Still the pain.</p>
+            <p>No other form.</p>
         `
     },
     {
         id: '2',
-        title: "Sober Thoughts (Pt. 1)",
-        slug: "sober-thoughts-pt-1",
+        title: "Echoes in the Womb",
+        slug: "echoes-in-the-womb",
         category: "Reflection",
-        date: "2024",
-        excerpt: "I fix everyone I love, but in the end I have no strength left to heal myself...",
+        date: "2025",
+        excerpt: "The water is shouting: Save, save, save! I need your help...",
         content: `
-            <p>I fix everyone I love, but in the end I have no strength left to heal myself...</p>
+            <p>The water is shouting:</p>
+            <p>“Save, save, save!</p>
+            <p>I need your help.</p>
+            <p>The womb is like a cave.</p>
+            <p>I am there within it.</p>
+            <p>Save me from this hell;</p>
+            <p>Let me come outside and see.</p>
+            <p>Pray to God to save me.”</p>
             <br/>
-            <p>When I see my loved ones happy , it's like all their happiness transfers to me, even though I haven't experienced the movement that they are in.</p>
+            <p>I am all ears to my parents’ voices,</p>
+            <p>voices filled with demands.</p>
+            <p>Oh! I forgot—I am a girl.</p>
+            <p>Will my family not accept me?</p>
+            <p>They pressure Mumma</p>
+            <p>to give birth to a boy.</p>
             <br/>
-            <p>Yet I feel empty from the inside knowing that nobody ever feels the same towards me.</p>
-            <p>There is a point in my life where I hated myself for being myself " I guess trauma makes you think those things"</p>
-            <p>But it's the phase after that that made me strong enough to go through anything..the problem is I don't know whether to be happy or sad for that..</p>
+            <p>I have a question for God:</p>
+            <p>Is it a sin to be a girl?</p>
+            <p>Is it the law of nature,</p>
+            <p>or is it something else?</p>
             <br/>
-            <p>Guess my life has more horrific entertainment than i expected...</p>
+            <p>Nature, nature,</p>
+            <p>shouts in the darkness.</p>
+            <p>Yet I find silence in the cave.</p>
+            <br/>
+            <p>Then comes the sweet voice of Mother:</p>
+            <p>“Don’t worry, my child.</p>
+            <p>I will protect you and save you</p>
+            <p>from misery and societal norms.</p>
+            <p>It is only an ideology, not a rule.</p>
+            <p>Nature and God are never biased.</p>
+            <p>Humans simply fail to understand reality.”</p>
+            <br/>
+            <p>They worship goddesses—</p>
+            <p>Shakti, Lakshmi, Durga, Kali—</p>
+            <p>yet might not accept a girl</p>
+            <p>to carry forward their dynasty.</p>
+            <br/>
+            <p>What a fault of society,</p>
+            <p>what a failure of humanity.</p>
+            <p>The hypocrisy of society</p>
+            <p>stands revealed.</p>
+            <br/>
+            <p>I have found my answer</p>
+            <p>in the voice of Mumma.</p>
+            <p>The journey ahead may be difficult,</p>
+            <p>but let me remain within this core,</p>
+            <p>safe and secure,</p>
+            <p>until the world outside</p>
+            <p>learns to see me not as a burden,</p>
+            <p>but as a life.</p>
         `
     },
     {
         id: '3',
-        title: "Akhira",
-        slug: "akhira",
+        title: "Heart of Childhood",
+        slug: "heart-of-childhood",
         category: "Heartbreak",
-        date: "2024",
-        excerpt: "Leaving me was okay. People leave me all the time...",
+        date: "2025",
+        excerpt: "Ivory and charcoal grey feathers of memories...",
         content: `
-            <p>Leaving me was okay</p>
-            <p>People leave me all the time</p>
-            <p>I'm used to it.what hurts</p>
-            <p>Like hell is when you made me</p>
-            <p>Feel so damm special yesterday ,</p>
-            <p>And then make me feel</p>
-            <p>So unwanted today...</p>
+            <p>Ivory and charcoal grey feathers of memories</p>
+            <p>Wings of time passes quickly</p>
+            <p>Annihilate the innocence of the soul</p>
+            <p>The childish and immaturity are the evidence of innocence</p>
+            <p>The baggage of learning and</p>
+            <p>Frolic mischieveness</p>
+            <p>Marks the beauty of childhood creativeness</p>
+            <p>Maturity of adulthood guide towards responsibility</p>
+            <p>Acceptance of civility</p>
+            <p>Lost the remembrance of childhood</p>
+            <p>The innocence and stubbornness lost in this fear.</p>
+            <p>And the baggage loads of responsibility</p>
+            <p>Vanished the childhood and pure</p>
+            <p>Blurred the smear of the golden and</p>
+            <p>End of preadolescence era.</p>
         `
     },
     {
         id: '4',
-        title: "Power is Power",
-        slug: "power-is-power",
+        title: "Christmas:- Phase of Success",
+        slug: "christmas-phase-of-success",
         category: "Love Dynamics",
-        date: "2024",
-        excerpt: "It's about power. When you're hot, you hold the power...",
+        date: "2025",
+        excerpt: "Through the lens of binary of perfect and imperfect, the celebration of Christmas...",
         content: `
-            <p>It's about power.</p>
-            <p>When you're hot, you hold the power. You can make guys go weak at the knees with just a smile. Mesmerize them with your charm. Make them fall madly, desperately, hopelessly in love with you. That's how much influence you wield. Why wouldn't you be confident? Why would you settle? But then one day, you meet this guy. You admire him from afar. Watch and hide. Make yourself small to not draw his attention while you carefully scrutinise his every move. You are dazed and paralysed. He's not like anyone you've ever met before. He's charming. He's intelligent. He's irresistible. You fall for him. Fall hard.</p>
+            <p>Through the lens of</p>
+            <p>binary of perfect and imperfect,</p>
+            <p>the celebration of Christmas.</p>
+            <p>Decorate fir tree with the artifacts and</p>
+            <p>lighting.</p>
+            <p>Cakes are baking.</p>
+            <p>Streets are lighting</p>
+            <p>with a hope.</p>
             <br/>
-            <p>And suddenly you're no longer the one in control. He's the one who now holds the power over you. The power to make you or break you. The power to send butterflies fluttering through your stomach. And the power to rip your heart and shred it into a million pieces.</p>
+            <p>As I have a flaw in me,</p>
+            <p>flaws are innate and</p>
+            <p>appreciate.</p>
+            <p>No individual is perfect,</p>
+            <p>but appreciate.</p>
+            <p>Flaws should be strength</p>
+            <p>rather than a weakness.</p>
+            <p>Flaws are stars in the sky of life.</p>
             <br/>
-            <p>Tell me, would you still feel confident? Tell me, would you not be terrified?</p>
+            <p>Christmas is a festival—</p>
+            <p>celebrate the flaws</p>
+            <p>with a flow.</p>
+            <p>Peripheral of life—</p>
+            <p>life without it</p>
+            <p>is impossible to live.</p>
+            <p>Two-sided of coin,</p>
+            <p>binaries of perfect and imperfect.</p>
+            <p>Glorious should be glorified.</p>
+            <p>Imperfect is a learning.</p>
+            <p>Learning is a phase,</p>
+            <p>a phase of success.</p>
+            <p>Christmas is the celebration of success.</p>
+            <br/>
+            <p>Shine like a sun,</p>
+            <p>bright like a sun.</p>
+            <p>Moon has calmness</p>
+            <p>and purity.</p>
+            <p>Christmas is the binary</p>
+            <p>of sun and moon.</p>
+            <p>Life is the binary of the sky</p>
         `
     },
     {
         id: '5',
-        title: "Unannounced",
-        slug: "unannounced",
+        title: "The Chemistry of Marriage",
+        slug: "the-chemistry-of-marriage",
         category: "Loss",
-        date: "2024",
-        excerpt: "You made me feel human again. Your touch, your laughter, your breath...",
+        date: "2025",
+        excerpt: "The chemistry of marriage, A covalent bond, Sharing and caring...",
         content: `
-            <p>You came Unannounced !</p>
-            <br/>
-            <p>You made me feel human again. Your touch, your laughter, your breath, everything showed me what</p>
-            <p>it is like being a human:</p>
-            <p>a living, breathing person.</p>
-            <br/>
-            <p>You came into my life at a time when I thought everything was against me, everything would kill me. You showed me everything I had to live and fight for.</p>
-            <p>In that short period I called you mine, you made me feel like there were galaxies in my veins and like the stars made their home in my eyes.</p>
-            <br/>
-            <p>I'll forever be grateful to the universe for bringing you to me, and at the same time I'll never forgive it for taking you away.</p>
+            <p>The chemistry of marriage,</p>
+            <p>A covalent bond,</p>
+            <p>Sharing and caring</p>
+            <p>For both families.</p>
+            <p>Groom and bride,</p>
+            <p>Excited for the wedding.</p>
+            <p>The bride's father</p>
+            <p>Skins the pain of separation,</p>
+            <p>A psychological separation</p>
+            <p>From his periphery,</p>
+            <p>Whom he loved the most,</p>
+            <p>His universe.</p>
+            <p>He hides the injection mark</p>
+            <p>From others,</p>
+            <p>And simply blesses</p>
+            <p>His little one.</p>
+            <p>With the flash of a second,</p>
+            <p>His little one grows up</p>
+            <p>And empties his house—</p>
+            <p>The one he raised</p>
+            <p>With pamper and care.</p>
+            <p>She goes to a new world</p>
+            <p>Where her father</p>
+            <p>Is no longer a part of it.</p>
+            <p>Just think of the thought—</p>
+            <p>His blood pressure rises and falls.</p>
+            <p>The day comes</p>
+            <p>When his heart separates from his soul.</p>
+            <p>Midway through the marriage,</p>
+            <p>The in-laws commence their drama.</p>
+            <p>“I am the head of the family.</p>
+            <p>The rules come from within me.</p>
+            <p>I desire gifts.</p>
+            <p>But give ample gifts</p>
+            <p>For your daughter's sake,</p>
+            <p>Not for us.</p>
+            <p>If gifts are not a part of marriage,</p>
+            <p>Then we return the procession.”</p>
+            <p>The father's eyes are wide open.</p>
+            <p>He puts his turban</p>
+            <p>At the feet of the in-laws.</p>
+            <p>His daughter screams</p>
+            <p>And shuts down the drama.</p>
+            <p>The turban returns</p>
+            <p>To its real position.</p>
+            <p>“Cancel this marriage.</p>
+            <p>It's a deal rather than a bond.</p>
+            <p>If this is an ionic bond</p>
+            <p>Rather than a covalent one,</p>
+            <p>I don't want this bond</p>
+            <p>To work forever.</p>
+            <p>I can't see an ocean of tears</p>
+            <p>In my Papa's lovely eyes.</p>
+            <p>I won't sacrifice his pride and respect</p>
+            <p>In front of these bulky, nasty flies.</p>
+            <p>I don't want an ionic bond</p>
+            <p>That can't resist forever.”</p>
+            <p>Marriage is a covalent bond,</p>
+            <p>Yet ionic.</p>
+            <p>Sacrifices are made by the bride's side,</p>
+            <p>Not by the groom's,</p>
+            <p>Yet the bride has to follow rules.</p>
+            <p>Voices have been restricted.</p>
+            <p>Agency and autonomy have been lost.</p>
+            <p>The future of the marriage depends</p>
+            <p>On whether we raise our voice</p>
+            <p>Against these flies today.</p>
         `
     },
     {
         id: '6',
-        title: "Mess",
-        slug: "mess",
+        title: "Burn the flame ; to ignite the self",
+        slug: "burn-the-flame-to-ignite-the-self",
         category: "Resilience",
-        date: "2024",
-        excerpt: "I remember the first time I saw your brown eyes...",
+        date: "2025",
+        excerpt: "Drape in white, Prepare for the rites...",
         content: `
-            <p>I remember the first time I saw your brown eyes and your brownish black hair and your white coloured t-shirt and your smile.</p>
-            <br/>
-            <p>Even though it was the first time, I knew that there was a connection between us.</p>
-            <br/>
-            <p>But now i am at a stage where I wish i could leave with my memories, my love But my heart, is a mess.</p>
-            <p>This year i met the most broken version of me and the strongest it is why I'm proud of myself because I survived the days that I thought I couldn't because I've never let anyone see me at my weakest .</p>
-            <p>I don't think people realise how hard it is to rediscover the person you were before the depression or even try to remember your own personality</p>
+            <p>Drape in white,</p>
+            <p>Prepare for the rites,</p>
+            <p>Red funeral of patriarchy.</p>
+            <p>Beside him, his wife,</p>
+            <p>Frightened to burn in the red flame,</p>
+            <p>Fled from the pyre,</p>
+            <p>Left the patriarchy there,</p>
+            <p>Introspect for herself:</p>
+            <p>Is it right to hear</p>
+            <p>The voices of the self,</p>
+            <p>Screaming loud to escape?</p>
+            <p>Open the mouth for her autonomy,</p>
+            <p>Singing the lyrics</p>
+            <p>To protect the identity,</p>
+            <p>Sounds of ode</p>
+            <p>Reaching to her ears.</p>
+            <p>Victory is close,</p>
+            <p>Everyone, is this clear?</p>
+            <p>Am I a woman,</p>
+            <p>Not marginalised,</p>
+            <p>Suppress my voice to sing the song of a lyric,</p>
+            <p>Resist the patriarchy</p>
+            <p>And the speech acts.</p>
+            <p>I am proudly a woman,</p>
+            <p>Not draped in white wear.</p>
+            <p>Is that clear to all?</p>
+            <p>I have the wardrobe of rainbow to wear.</p>
+            <p>His soul left his corpus,</p>
+            <p>Not mine.</p>
+            <p>Why will I scapegoat in the superstitious belief?</p>
+            <p>I am a human and a woman.</p>
+            <p>My soul is alive, not</p>
+            <p>Died...</p>
         `
     },
     {
         id: '7',
-        title: "Whispers in the Dark",
-        slug: "whispers-in-the-dark",
+        title: "The Conch Shells: Maa’s Message",
+        slug: "the-conch-shells-maas-message",
         category: "Humanity",
-        date: "2024",
-        excerpt: "Love's ember flickers, a fragile flame...",
+        date: "2025",
+        excerpt: "Conch shells vibrating all ears, Earthen lamps full with oil and ghee are lightened up...",
         content: `
-            <p>Love's ember flickers, a fragile flame,</p>
-            <p>Secrets burn hot on trembling lips.</p>
-            <p>The weight of words unsaid, our shame</p>
-            <p>Responsibility's cold fingertips.</p>
-            <br/>
-            <p>Fear lurks in shadows, ever near,</p>
-            <p>While friendship's light holds back the night.</p>
-            <p>But longing gnaws, year after year,</p>
-            <p>For paths untrod and lost delight.</p>
-            <br/>
-            <p>Death waits patient, silent friend,</p>
-            <p>Our final dance, our last embrace.</p>
-            <p>Yet in this moment, we pretend</p>
-            <p>That time stands still, if for a space.</p>
-            <br/>
-            <p>We fumble forward, hand in hand,</p>
-            <p>Through joy and grief, through storm and calm.</p>
+            <p>Conch shells vibrating all ears,</p>
+            <p>Earthen lamps full with oil and ghee are lightened up.</p>
+            <p>The universe is glowing and waiting</p>
+            <p>To witness the birth of</p>
+            <p>Durga.</p>
+            <p>Yet, Devi doesn't want to land in the world.</p>
+            <p>Devotees are praying:</p>
+            <p>“Maa, it's a request from your child—</p>
+            <p>Please come down to the Earth.”</p>
+            <p>Maa replied,</p>
+            <p>“I am already there, but you, my child, are beating me</p>
+            <p>up,</p>
+            <p>Causing horror which haunts me internally every second.</p>
+            <p>And now you request me to come down to you.”</p>
+            <p>“Maa, I never beat you up,</p>
+            <p>Nor raise a finger against you.”</p>
+            <p>“Dear child, think twice before saying.</p>
+            <p>Make sure you have not committed a sin.”</p>
+            <p>“Maa, I never commit the sin</p>
+            <p>By creating chaos and horror in your life, Maa.”</p>
+            <p>“Tell me one thing, my child—</p>
+            <p>You never raised a finger against your wife,</p>
+            <p>Yet you slayed your newborn baby girl.”</p>
+            <p>“Maa, she committed mistakes, that's why,</p>
+            <p>And Maa, lineage only belongs to a boy.”</p>
+            <p>“I don't want to come to you. Such narrow thought cannot exist in a devotee of mine.</p>
+            <p>You ask me to come down,</p>
+            <p>But you make the lives</p>
+            <p>of my periphery disastrous</p>
+            <p>And cause horror in their lives.</p>
+            <p>Do you realise it?</p>
+            <p>You are praying in front of me,</p>
+            <p>Asking for blessings to lighten up your life,</p>
+            <p>While you make my life horrific and dark.</p>
+            <p>She is a periphery of me,</p>
+            <p>And you cause horror to her.</p>
+            <p>If you worship her, treat and respect her,</p>
+            <p>I will be more happy than this worship.</p>
+            <p>You are born from women,</p>
+            <p>And cause horror to them,</p>
+            <p>Restrict their agency,</p>
+            <p>And say,</p>
+            <p>‘Maa, why are you not coming to us?’</p>
+            <p>It is time to awaken before it is too late.</p>
+            <p>She is black, red, and full of spectrum,</p>
+            <p>Blessed with my energy.</p>
+            <p>She is a flower—</p>
+            <p>Where she goes, she blooms.”</p>
+            <p>“Apologise, Maa, I forgot—</p>
+            <p>She is also a periphery of you.</p>
+            <p>I will make sure to light up her life.”</p>
+        `
+    },
+    /*
             <p>Imperfect, human, as we stand</p>
             <p>In love's wild chaos, find our balm.</p>
         `
@@ -478,4 +713,5 @@ export const poems: Poem[] = [
             <p>By trust and love that will stand the test.</p>
         `
     }
+    */
 ];
