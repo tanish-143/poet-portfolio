@@ -2,14 +2,7 @@ import React, { useState } from 'react';
 import { cn } from '../../lib/utils';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Instagram, Mail } from 'lucide-react';
-
-// Wattpad SVG icon (lucide doesn't have one)
-const WattpadIcon = () => (
-    <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5" xmlns="http://www.w3.org/2000/svg">
-        <path d="M4 4h4l2 9 2-9h4l-4 14h-4L4 4zm10 0h4l2 9 2-9h4l-4 14h-4l-4-14z" />
-    </svg>
-);
+import { Menu, X, Instagram, Mail, Linkedin } from 'lucide-react';
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -114,7 +107,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, className }) => {
                 {/* Social Icons */}
                 <div className="flex items-center justify-center gap-6">
                     <a
-                        href="https://www.instagram.com/theodorechase000?igsh=ZmRtbWEzNHRqb2li"
+                        href="https://www.instagram.com/_.nature_girl_.12/"
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label="Instagram"
@@ -123,16 +116,16 @@ export const Layout: React.FC<LayoutProps> = ({ children, className }) => {
                         <Instagram className="w-5 h-5" />
                     </a>
                     <a
-                        href="https://www.wattpad.com/user/DJEMPOWER"
+                        href="https://www.linkedin.com/search/results/all/?keywords=S%20Barsha%20Priyadarshini"
                         target="_blank"
                         rel="noopener noreferrer"
-                        aria-label="Wattpad"
+                        aria-label="LinkedIn"
                         className="text-ink/40 hover:text-ink transition-colors duration-300 hover:-translate-y-0.5 transform"
                     >
-                        <WattpadIcon />
+                        <Linkedin className="w-5 h-5" />
                     </a>
                     <a
-                        href="mailto:widgetwalker999@gmail.com"
+                        href="mailto:barsha2005priyadarshini@gmail.com"
                         aria-label="Email"
                         className="text-ink/40 hover:text-ink transition-colors duration-300 hover:-translate-y-0.5 transform"
                     >
