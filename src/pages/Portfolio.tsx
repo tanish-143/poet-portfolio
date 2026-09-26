@@ -2,7 +2,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import { MagicText } from '../components/ui/MagicText';
 import { TiltCard } from '../components/ui/TiltCard';
 import { Link } from 'react-router-dom';
-import { poems } from '../data/poems';
+import { poems } from "../lib/firebase";
 import { useEffect, useRef } from 'react';
 
 // Map categories to subtle accent colors from the design system

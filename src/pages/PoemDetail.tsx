@@ -1,5 +1,5 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { poems } from '../data/poems';
+import { poems } from "../lib/firebase";
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { useEffect } from 'react';
