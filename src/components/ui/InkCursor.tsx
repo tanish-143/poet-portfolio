@@ -4,7 +4,7 @@ import { motion, useMotionValue, useSpring } from 'framer-motion';
 const FEATHER_SIZE = 120;
 const FEATHER_TIP_OFFSET_X = 8;
 const FEATHER_TIP_OFFSET_Y = 86;
-const FEATHER_URL = '/assets/peacock-feather.svg';
+const FEATHER_URL = `${import.meta.env.BASE_URL}assets/peacock-feather.svg`;
 
 export const InkCursor = () => {
     const [isVisible, setIsVisible] = useState(true);
