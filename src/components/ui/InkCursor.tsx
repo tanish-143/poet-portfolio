@@ -7,7 +7,7 @@ const FEATHER_TIP_OFFSET_Y = 86;
 const FEATHER_URL = '/assets/peacock-feather.svg';
 
 export const InkCursor = () => {
-    const [isVisible, setIsVisible] = useState(false);
+    const [isVisible, setIsVisible] = useState(true);
     const [isIdle, setIsIdle] = useState(false);
     const [isTouchDevice, setIsTouchDevice] = useState(false);
     const [isHovering, setIsHovering] = useState(false);
@@ -37,7 +37,9 @@ export const InkCursor = () => {
 
     useEffect(() => {
         const updateTouchState = () => {
-            setIsTouchDevice(window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window || navigator.maxTouchPoints > 0);
+            const touch = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            setIsTouchDevice(touch);
+            setIsVisible(!touch);
         };
 
         updateTouchState();
@@ -251,6 +253,8 @@ export const InkCursor = () => {
                     src={FEATHER_URL}
                     alt=""
                     draggable={false}
+                    onLoad={() => setImageReady(true)}
+                    onError={() => setImageError(true)}
                     className="block origin-bottom select-none"
                     style={{
                         width: FEATHER_SIZE,
